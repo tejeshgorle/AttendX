@@ -1,4 +1,4 @@
-# Smart Attendance System
+# Smart Attendance System- AttendX
 
 An Android application built using Kotlin that prevents proxy attendance using:
 
