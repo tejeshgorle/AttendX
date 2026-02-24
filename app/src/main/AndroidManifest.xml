@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
         android:allowBackup="true"
@@ -16,19 +15,18 @@
         <activity
             android:name=".LoginActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
         <!-- 🔹 Other Activities -->
         <activity android:name=".RegisterActivity" />
         <activity android:name=".DashboardActivity" />
-        <activity android:name=".TeacherDashboardActivity"/>
-        <activity android:name=".StudentDashboardActivity"/>
+        <activity android:name=".TeacherDashboardActivity" />
+        <activity android:name=".StudentDashboardActivity" />
+        <activity android:name=".GenerateQRActivity" />
         <activity android:name=".MainActivity" />
 
     </application>

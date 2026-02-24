@@ -15,6 +15,11 @@ class TeacherDashboardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_teacher_dashboard)
 
         auth = FirebaseAuth.getInstance()
+        val generateQRBtn = findViewById<Button>(R.id.generateQRBtn)
+
+        generateQRBtn.setOnClickListener {
+            startActivity(Intent(this, GenerateQRActivity::class.java))
+        }
 
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
 

@@ -40,14 +40,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.zxing:core:3.5.2")
 
-    // 🔥 Firebase BOM
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
 
-    // 🔥 Firebase Authentication
     implementation("com.google.firebase:firebase-auth-ktx")
 
-    // 🔥 Firestore Database
     implementation("com.google.firebase:firebase-firestore-ktx")
 
     testImplementation(libs.junit)
