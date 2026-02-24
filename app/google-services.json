@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "93792864402",
+    "project_id": "attendx-c1cec",
+    "storage_bucket": "attendx-c1cec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:93792864402:android:047a5573cb2abbd66ffe4b",
+        "android_client_info": {
+          "package_name": "com.tej.smartattendance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnGQifLRB6RMJCVTwu_FycIYJGt2y7WRM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
