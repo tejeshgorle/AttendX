@@ -27,6 +27,8 @@
         <!-- 🔹 Other Activities -->
         <activity android:name=".RegisterActivity" />
         <activity android:name=".DashboardActivity" />
+        <activity android:name=".TeacherDashboardActivity"/>
+        <activity android:name=".StudentDashboardActivity"/>
         <activity android:name=".MainActivity" />
 
     </application>

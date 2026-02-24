@@ -8,10 +8,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
+        db = FirebaseFirestore.getInstance()
 
         val emailET = findViewById<EditText>(R.id.emailET)
         val passwordET = findViewById<EditText>(R.id.passwordET)
@@ -27,20 +30,31 @@ class LoginActivity : AppCompatActivity() {
 
         loginBtn.setOnClickListener {
 
-            val email = emailET.text.toString().trim()
-            val password = passwordET.text.toString().trim()
-
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val email = findViewById<EditText>(R.id.emailET).text.toString()
+            val password = findViewById<EditText>(R.id.passwordET).text.toString()
 
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
 
                     if (task.isSuccessful) {
-                        startActivity(Intent(this, DashboardActivity::class.java))
-                        finish()
+
+                        val userId = auth.currentUser!!.uid
+
+                        db.collection("users").document(userId)
+                            .get()
+                            .addOnSuccessListener { document ->
+
+                                val role = document.getString("role")
+
+                                if (role == "teacher") {
+                                    startActivity(Intent(this, TeacherDashboardActivity::class.java))
+                                } else {
+                                    startActivity(Intent(this, StudentDashboardActivity::class.java))
+                                }
+
+                                finish()
+                            }
+
                     } else {
                         Toast.makeText(this, task.exception?.message, Toast.LENGTH_SHORT).show()
                     }
