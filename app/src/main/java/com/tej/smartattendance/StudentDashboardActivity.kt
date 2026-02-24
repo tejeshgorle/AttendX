@@ -16,6 +16,12 @@ class StudentDashboardActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        val scanQRBtn = findViewById<Button>(R.id.scanQRBtn)
+
+        scanQRBtn.setOnClickListener {
+            startActivity(Intent(this, ScanQRActivity::class.java))
+        }
+
         val logoutBtn = findViewById<Button>(R.id.logoutBtn)
 
         logoutBtn.setOnClickListener {
