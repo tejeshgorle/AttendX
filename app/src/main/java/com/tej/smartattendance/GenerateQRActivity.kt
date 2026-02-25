@@ -21,7 +21,7 @@ class GenerateQRActivity : AppCompatActivity() {
         generateBtn.setOnClickListener {
 
             val currentTime = System.currentTimeMillis()
-            val expiryTime = currentTime + (5 * 60 * 1000) // 5 minutes expiry
+            val expiryTime = currentTime + (2 * 60 * 1000) // 5 minutes expiry
 
             val qrData = JSONObject().apply {
                 put("classId", "CSE101")

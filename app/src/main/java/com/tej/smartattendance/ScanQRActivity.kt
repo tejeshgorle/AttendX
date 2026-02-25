@@ -2,6 +2,7 @@ package com.tej.smartattendance
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -12,6 +13,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.*
 import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.common.InputImage
 import org.json.JSONObject
@@ -23,7 +25,14 @@ class ScanQRActivity : AppCompatActivity() {
 
     private lateinit var previewView: PreviewView
     private lateinit var cameraExecutor: ExecutorService
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     private var isScanned = false
+
+    // Classroom Location (Change to your real classroom later)
+    private val classroomLat = 17.3850
+    private val classroomLng = 78.4867
+    private val allowedRadius = 50f // meters
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,13 +40,17 @@ class ScanQRActivity : AppCompatActivity() {
 
         previewView = findViewById(R.id.previewView)
         cameraExecutor = Executors.newSingleThreadExecutor()
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         if (allPermissionsGranted()) {
             startCamera()
         } else {
             ActivityCompat.requestPermissions(
                 this,
-                arrayOf(Manifest.permission.CAMERA),
+                arrayOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ),
                 101
             )
         }
@@ -48,6 +61,11 @@ class ScanQRActivity : AppCompatActivity() {
             this,
             Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
+                &&
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun startCamera() {
@@ -82,7 +100,7 @@ class ScanQRActivity : AppCompatActivity() {
                     imageAnalyzer
                 )
             } catch (e: Exception) {
-                Log.e("CameraX", "Binding failed", e)
+                Log.e("CameraX", "Camera binding failed", e)
             }
 
         }, ContextCompat.getMainExecutor(this))
@@ -132,21 +150,98 @@ class ScanQRActivity : AppCompatActivity() {
 
         try {
             val json = JSONObject(qrData)
-
             val expiry = json.getLong("expiry")
             val currentTime = System.currentTimeMillis()
 
             if (currentTime > expiry) {
-                Toast.makeText(this, "QR Code Expired", Toast.LENGTH_LONG).show()
-            } else {
-                Toast.makeText(this, "QR Valid - Attendance Marked", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "QR Code Expired ❌", Toast.LENGTH_LONG).show()
+                isScanned = false
+                return
             }
 
+            checkLocationAndMarkAttendance()
+
         } catch (e: Exception) {
-            Toast.makeText(this, "Invalid QR Code", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Invalid QR Code ❌", Toast.LENGTH_LONG).show()
+            isScanned = false
+        }
+    }
+
+    private fun checkLocationAndMarkAttendance() {
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                102
+            )
+            isScanned = false
+            return
         }
 
-        finish() // Close scanner after result
+        val locationRequest = LocationRequest.Builder(
+            Priority.PRIORITY_HIGH_ACCURACY,
+            1000
+        ).setMaxUpdates(1).build()
+
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            object : LocationCallback() {
+
+                override fun onLocationResult(locationResult: LocationResult) {
+
+                    val location = locationResult.lastLocation
+
+                    if (location != null) {
+
+                        val results = FloatArray(1)
+
+                        Location.distanceBetween(
+                            location.latitude,
+                            location.longitude,
+                            classroomLat,
+                            classroomLng,
+                            results
+                        )
+
+                        val distanceInMeters = results[0]
+
+                        if (distanceInMeters <= allowedRadius) {
+                            Toast.makeText(
+                                this@ScanQRActivity,
+                                "Attendance Marked Successfully ✅",
+                                Toast.LENGTH_LONG
+                            ).show()
+
+                            finish() // Close scanner after success
+
+                        } else {
+                            Toast.makeText(
+                                this@ScanQRActivity,
+                                "You are not inside classroom ❌",
+                                Toast.LENGTH_LONG
+                            ).show()
+                            isScanned = false
+                        }
+
+                    } else {
+                        Toast.makeText(
+                            this@ScanQRActivity,
+                            "Unable to get location ❌",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        isScanned = false
+                    }
+
+                    fusedLocationClient.removeLocationUpdates(this)
+                }
+            },
+            mainLooper
+        )
     }
 
     override fun onDestroy() {
