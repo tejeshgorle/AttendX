@@ -23,9 +23,11 @@ class GenerateQRActivity : AppCompatActivity() {
             val currentTime = System.currentTimeMillis()
             val expiryTime = currentTime + (2 * 60 * 1000) // 5 minutes expiry
 
+            val sessionId = "session_${System.currentTimeMillis()}"
+
             val qrData = JSONObject().apply {
+                put("sessionId", sessionId)
                 put("classId", "CSE101")
-                put("timestamp", currentTime)
                 put("expiry", expiryTime)
             }
 

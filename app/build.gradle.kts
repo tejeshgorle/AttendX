@@ -58,6 +58,20 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
+    // Cloudinary
+    implementation ("com.cloudinary:cloudinary-android:2.3.1")
+
+// Glide
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
+
+// ML Kit Face Detection
+    implementation ("com.google.mlkit:face-detection:16.1.5")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
