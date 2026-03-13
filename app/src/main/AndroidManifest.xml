@@ -35,6 +35,8 @@
         <activity android:name=".StudentDashboardActivity" />
         <activity android:name=".GenerateQRActivity" />
         <activity android:name=".ScanQRActivity" android:exported="false" />
+        <activity android:name=".SessionHistoryActivity" />
+        <activity android:name=".StudentAttendanceHistoryActivity"/>
         <activity android:name=".MainActivity" />
     </application>
 

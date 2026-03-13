@@ -329,6 +329,9 @@ class ScanQRActivity : AppCompatActivity() {
         val apiKey = "50OzeA05l1etE77gOx3kg-VrtNxW_Yud"
         val apiSecret = "k8mUC1v5X-4V_f-rVy6Y1PukEnbMVWtI"
 
+        Log.d("FACE_API_URL", "Profile URL: $profileUrl")
+        Log.d("FACE_API_URL", "Selfie URL: $selfieUrl")
+
         RetrofitClient.instance.compareFaces(
             apiKey,
             apiSecret,
@@ -369,6 +372,11 @@ class ScanQRActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<FaceCompareResponse>, t: Throwable) {
+
+                t.printStackTrace()
+
+                android.util.Log.e("FACE_API", "API Failure: ${t.message}")
+
                 retrySelfieCapture("Face API Failed ❌")
             }
         })
@@ -454,6 +462,8 @@ class ScanQRActivity : AppCompatActivity() {
 
                 val attendanceData = hashMapOf(
                     "userId" to userId,
+                    "sessionId" to currentSessionId,
+                    "classId" to currentClassId,
                     "selfieUrl" to selfieUrl,
                     "timestamp" to System.currentTimeMillis()
                 )
