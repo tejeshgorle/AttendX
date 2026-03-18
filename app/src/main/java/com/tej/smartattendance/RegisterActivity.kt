@@ -2,6 +2,7 @@ package com.tej.smartattendance
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -34,6 +35,32 @@ class RegisterActivity : AppCompatActivity() {
         val uploadImageBtn = findViewById<Button>(R.id.uploadImageBtn)
         val registerBtn = findViewById<Button>(R.id.registerBtn)
         val profileImageView = findViewById<ImageView>(R.id.profileImage)
+
+        // ── ROLE CARD TOGGLE (controls the hidden RadioGroup) ────
+        val roleTeacherCard = findViewById<LinearLayout>(R.id.roleTeacherCard)
+        val roleStudentCard = findViewById<LinearLayout>(R.id.roleStudentCard)
+        val teacherCardText = findViewById<TextView>(R.id.teacherCardText)
+        val studentCardText = findViewById<TextView>(R.id.studentCardText)
+
+        // Default: Teacher selected (matches layout default)
+        roleGroup.check(R.id.teacherRadio)
+
+        roleTeacherCard.setOnClickListener {
+            roleGroup.check(R.id.teacherRadio)
+            roleTeacherCard.setBackgroundResource(R.drawable.bg_role_card_active)
+            teacherCardText.setTextColor(Color.parseColor("#4F6EF7"))
+            roleStudentCard.setBackgroundResource(R.drawable.bg_role_card_inactive)
+            studentCardText.setTextColor(Color.parseColor("#2D3748"))
+        }
+
+        roleStudentCard.setOnClickListener {
+            roleGroup.check(R.id.studentRadio)
+            roleStudentCard.setBackgroundResource(R.drawable.bg_role_card_active)
+            studentCardText.setTextColor(Color.parseColor("#4F6EF7"))
+            roleTeacherCard.setBackgroundResource(R.drawable.bg_role_card_inactive)
+            teacherCardText.setTextColor(Color.parseColor("#2D3748"))
+        }
+        // ─────────────────────────────────────────────────────────
 
         // Image Picker
         uploadImageBtn.setOnClickListener {

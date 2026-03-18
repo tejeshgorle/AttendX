@@ -6,6 +6,7 @@
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".MyApp"
@@ -30,14 +31,14 @@
 
         <!-- 🔹 Other Activities -->
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".DashboardActivity" />
         <activity android:name=".TeacherDashboardActivity" />
         <activity android:name=".StudentDashboardActivity" />
         <activity android:name=".GenerateQRActivity" />
         <activity android:name=".ScanQRActivity" android:exported="false" />
         <activity android:name=".SessionHistoryActivity" />
         <activity android:name=".StudentAttendanceHistoryActivity"/>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".StudentProfileActivity"/>
+        <activity android:name=".TeacherProfileActivity"/>
     </application>
 
 </manifest>

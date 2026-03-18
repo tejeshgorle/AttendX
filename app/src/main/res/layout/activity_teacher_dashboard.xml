@@ -1,90 +1,463 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F4F6FB"
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F5F7FA">
+        android:orientation="vertical">
 
-        <TextView
-            android:text="Attendance Dashboard"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="#1E3A8A"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"/>
-
-        <Button
-            android:id="@+id/generateQrBtn"
+        <!-- ══════════════════════════════════════════ -->
+        <!-- DARK HEADER                                -->
+        <!-- ══════════════════════════════════════════ -->
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Generate Attendance QR"
-            android:backgroundTint="#4CAF50"
-            android:textColor="@android:color/white"
-            android:layout_marginBottom="12dp"/>
+            android:background="#0A0F1E"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="28dp">
 
-        <Button
-            android:id="@+id/sessionHistoryBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Session History"
-            android:layout_marginBottom="12dp"/>
+            <!-- Glow blob -->
+            <View
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-60dp"
+                android:layout_marginEnd="-60dp"
+                android:background="@drawable/bg_glow_blob_blue"
+                android:alpha="0.35"/>
 
-        <!-- Attendance Graph -->
-        <com.github.mikephil.charting.charts.BarChart
-            android:id="@+id/barChart"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginBottom="16dp"/>
+            <!-- Profile Image -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/headerProfileImage"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"/>
 
-        <!-- Search Students -->
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:queryHint="Search student..."
-            android:layout_marginBottom="8dp"/>
+            <!-- Name + dept + sessions -->
+            <LinearLayout
+                android:id="@+id/headerTextBlock"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toEndOf="@id/headerProfileImage"
+                android:layout_toStartOf="@id/profileBtn"
+                android:layout_alignTop="@id/headerProfileImage"
+                android:layout_marginStart="12dp">
 
-        <!-- Session Filters -->
+                <TextView
+                    android:id="@+id/headerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Teacher"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"/>
+
+                <TextView
+                    android:id="@+id/headerDept"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Department"
+                    android:textSize="12sp"
+                    android:textColor="#6B7FA3"
+                    android:layout_marginTop="2dp"/>
+
+                <TextView
+                    android:id="@+id/headerSessions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sessions Conducted: --"
+                    android:textSize="11sp"
+                    android:textColor="#4F6EF7"
+                    android:textStyle="bold"
+                    android:layout_marginTop="3dp"/>
+
+            </LinearLayout>
+
+            <!-- Profile icon button -->
+            <TextView
+                android:id="@+id/profileBtn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="👤"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:background="@drawable/bg_icon_btn"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <!-- ── Generate QR + Session History row ── -->
+            <LinearLayout
+                android:id="@+id/actionRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_below="@id/headerProfileImage"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp">
+
+                <!-- Generate QR — green -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#22C55E">
+
+                    <LinearLayout
+                        android:id="@+id/generateQrBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:src="@drawable/ic_qr_scan"
+                            app:tint="#FFFFFF"
+                            android:layout_marginEnd="6dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Generate QR"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#FFFFFF"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <!-- Session History — dark -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    app:cardCornerRadius="13dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#12183A">
+
+                    <LinearLayout
+                        android:id="@+id/sessionHistoryBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:clickable="true"
+                        android:focusable="true">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Session History"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:textColor="#8A9BBE"/>
+
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- Export CSV button -->
+            <LinearLayout
+                android:id="@+id/exportBtn"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_below="@id/actionRow"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:background="@drawable/bg_profile_btn"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_download"
+                    app:tint="#6B7FA3"
+                    android:layout_marginEnd="6dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Export Attendance (CSV)"
+                    android:textSize="12sp"
+                    android:textColor="#6B7FA3"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- CONTENT                                    -->
+        <!-- ══════════════════════════════════════════ -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="8dp">
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <Button
-                android:id="@+id/filterAllBtn"
-                android:layout_width="0dp"
+            <!-- ── Overview Stats ── -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="All Sessions"/>
+                android:text="Overview"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="12dp"/>
 
-            <Button
-                android:id="@+id/filterTodayBtn"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Today"
-                android:layout_marginStart="8dp"/>
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_marginBottom="20dp">
+
+                <!-- Total Students -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp"
+                    android:layout_marginEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/totalStudentsTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#4F6EF7"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Students"
+                        android:textSize="11sp"
+                        android:textColor="#8A96B0"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <!-- Sessions -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp"
+                    android:layout_marginEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/totalSessionsTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#22C55E"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sessions"
+                        android:textSize="11sp"
+                        android:textColor="#8A96B0"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <!-- Avg Rate -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp">
+
+                    <TextView
+                        android:id="@+id/avgRateTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--%"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#F59E0B"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Avg. Rate"
+                        android:textSize="11sp"
+                        android:textColor="#8A96B0"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- ── Bar Chart ── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attendance Overview"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="12dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="16dp"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Student vs Attendance %"
+                        android:textSize="12sp"
+                        android:textColor="#8A96B0"/>
+
+                </LinearLayout>
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/barChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
+
+            </LinearLayout>
+
+            <!-- ── Search ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_stat_card"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:layout_marginBottom="14dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_search"
+                    android:layout_marginEnd="10dp"
+                    app:tint="#A0AEC0"/>
+
+                <EditText
+                    android:id="@+id/searchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:hint="Search student..."
+                    android:textColorHint="#C0C9DC"
+                    android:textColor="#1A202C"
+                    android:textSize="14sp"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
+                    android:paddingStart="0dp"/>
+
+            </LinearLayout>
+
+            <!-- ── Filter chips ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/filterAllBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:text="All Sessions"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center"
+                    android:background="@drawable/bg_filter_active"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <TextView
+                    android:id="@+id/filterTodayBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:text="Today"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#8A96B0"
+                    android:gravity="center"
+                    android:background="@drawable/bg_filter_inactive"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+
+            <!-- ── Student List ── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Students"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
 
         </LinearLayout>
-
-        <!-- Student List -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"/>
-
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

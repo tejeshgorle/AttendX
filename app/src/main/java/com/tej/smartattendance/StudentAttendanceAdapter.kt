@@ -1,14 +1,18 @@
 package com.tej.smartattendance
 
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import de.hdodenhof.circleimageview.CircleImageView
 
 class StudentAttendanceAdapter(
-    private val originalList: MutableList<StudentAttendance>
+    private var originalList: MutableList<StudentAttendance>
 ) : RecyclerView.Adapter<StudentAttendanceAdapter.ViewHolder>() {
 
     private var filteredList: MutableList<StudentAttendance> = originalList.toMutableList()
@@ -16,6 +20,8 @@ class StudentAttendanceAdapter(
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val nameTV: TextView = view.findViewById(R.id.nameTV)
         val detailsTV: TextView = view.findViewById(R.id.detailsTV)
+        val percentageBadge: TextView = view.findViewById(R.id.percentageBadge)
+        val studentAvatar: CircleImageView = view.findViewById(R.id.studentAvatar)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,60 +33,69 @@ class StudentAttendanceAdapter(
     override fun getItemCount(): Int = filteredList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
         val student = filteredList[position]
+        val context = holder.itemView.context
 
+        // ── Load profile photo ──
+        Glide.with(context)
+            .load(student.profileImageUrl)
+            .placeholder(R.drawable.ic_default_avatar)
+            .error(R.drawable.ic_default_avatar)
+            .circleCrop()
+            .into(holder.studentAvatar)
+
+        // ── Name ──
         holder.nameTV.text = student.name
 
-        val percentageText = "${"%.2f".format(student.percentage)}%"
+        // ── Details using String Resource ──
+        holder.detailsTV.text = context.getString(
+            R.string.attendance_details,
+            student.totalClasses,
+            student.present,
+            student.absent
+        )
 
-        holder.detailsTV.text =
-            "Total: ${student.totalClasses} | Present: ${student.present} | Absent: ${student.absent} | $percentageText"
+        // ── Percentage badge with color coding ──
+        val pct = student.percentage
+        holder.percentageBadge.text = context.getString(R.string.percentage_format, pct)
 
-        if (student.percentage < 75) {
-            holder.detailsTV.setTextColor(android.graphics.Color.RED)
-            holder.detailsTV.append("  ⚠ Low Attendance")
-        } else {
-            holder.detailsTV.setTextColor(android.graphics.Color.BLACK)
+        when {
+            pct >= 75 -> {
+                holder.percentageBadge.setTextColor("#22C55E".toColorInt())
+                holder.percentageBadge.setBackgroundResource(R.drawable.bg_badge_present)
+            }
+            pct >= 60 -> {
+                holder.percentageBadge.setTextColor("#F59E0B".toColorInt())
+                holder.percentageBadge.setBackgroundResource(R.drawable.bg_badge_warning)
+            }
+            else -> {
+                holder.percentageBadge.setTextColor("#EF4444".toColorInt())
+                holder.percentageBadge.setBackgroundResource(R.drawable.bg_badge_absent)
+            }
         }
+
+        // ── Click to view student attendance history ──
         holder.itemView.setOnClickListener {
-
-            val context = holder.itemView.context
-
-            val intent = Intent(
-                context,
-                StudentAttendanceHistoryActivity::class.java
-            )
-
+            val intent = Intent(context, StudentAttendanceHistoryActivity::class.java)
             intent.putExtra("userId", student.userId)
-
             context.startActivity(intent)
         }
     }
 
-    // 🔹 Search Filter Function
     fun filter(query: String) {
-
         filteredList = if (query.isEmpty()) {
             originalList.toMutableList()
         } else {
             originalList.filter {
-                it.name.lowercase().contains(query.lowercase())
+                it.name.contains(query, ignoreCase = true)
             }.toMutableList()
         }
-
         notifyDataSetChanged()
     }
 
-    // 🔹 Refresh Data (when reloading attendance)
     fun updateData(newList: List<StudentAttendance>) {
-
-        originalList.clear()
-        originalList.addAll(newList)
-
-        filteredList.clear()
-        filteredList.addAll(newList)
-
+        originalList = newList.toMutableList()
+        filteredList = newList.toMutableList()
         notifyDataSetChanged()
     }
 }

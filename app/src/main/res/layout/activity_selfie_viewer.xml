@@ -1,17 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
-    android:background="#000000">
+    android:background="#0A0F1E">
 
-    <ImageView
-        android:id="@+id/selfieImageView"
+    <!-- ══════════════════════════════════════════ -->
+    <!-- TOP BAR                                    -->
+    <!-- ══════════════════════════════════════════ -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:contentDescription="Student Selfie Proof" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="12dp">
+
+        <!-- Back button -->
+        <TextView
+            android:id="@+id/backBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:text="←"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:background="@drawable/bg_back_btn"
+            android:layout_marginEnd="12dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selfie Verification"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
+
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- IMAGE AREA                                 -->
+    <!-- ══════════════════════════════════════════ -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="16dp">
+
+        <!-- Selfie Image -->
+        <ImageView
+            android:id="@+id/selfieImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bg_dark_card"
+            android:contentDescription="Student Selfie Proof"/>
+
+        <!-- Corner TL -->
+        <View
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="top|start"
+            android:layout_margin="12dp"
+            android:background="@drawable/ic_corner_tl"/>
+
+        <!-- Corner TR -->
+        <View
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp"
+            android:background="@drawable/ic_corner_tr"/>
+
+        <!-- Corner BL -->
+        <View
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="12dp"
+            android:background="@drawable/ic_corner_bl"/>
+
+        <!-- Corner BR -->
+        <View
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="12dp"
+            android:background="@drawable/ic_corner_br"/>
+
+    </FrameLayout>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- BOTTOM INFO CARD                           -->
+    <!-- ══════════════════════════════════════════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bg_card_rounded_top"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="28dp">
+
+        <!-- Row 1: Student + Date -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginBottom="10dp">
+
+            <!-- Student chip -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="12dp"
+                android:layout_marginEnd="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STUDENT"
+                    android:textSize="10sp"
+                    android:textColor="#8A96B0"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/studentNameText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#0A0F1E"
+                    android:maxLines="1"
+                    android:ellipsize="end"/>
+
+            </LinearLayout>
+
+            <!-- Date chip -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="12dp"
+                android:layout_marginStart="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DATE"
+                    android:textSize="10sp"
+                    android:textColor="#8A96B0"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/dateText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#0A0F1E"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Row 2: Subject + Time -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginBottom="14dp">
+
+            <!-- Subject chip -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="12dp"
+                android:layout_marginEnd="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SUBJECT"
+                    android:textSize="10sp"
+                    android:textColor="#8A96B0"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/subjectText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#0A0F1E"/>
+
+            </LinearLayout>
+
+            <!-- Time chip -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="12dp"
+                android:layout_marginStart="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TIME"
+                    android:textSize="10sp"
+                    android:textColor="#8A96B0"
+                    android:letterSpacing="0.06"
+                    android:layout_marginBottom="3dp"/>
+
+                <TextView
+                    android:id="@+id/timeText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    android:textColor="#0A0F1E"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Verified badge -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@drawable/bg_badge_present"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:background="@drawable/bg_dot_green"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Face verified — Attendance marked"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#22C55E"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

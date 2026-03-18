@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Attendx</string>
+    <string name="attendance_details">Total: %1$d · Present: %2$d · Absent: %3$d</string>
+    <string name="percentage_format">%.0f%%</string>
 </resources>

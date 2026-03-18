@@ -1,20 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F4F6FB">
 
+    <!-- ══════════════════════════════════════════ -->
+    <!-- DARK HEADER                                -->
+    <!-- ══════════════════════════════════════════ -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0A0F1E"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="42dp">
+
+        <!-- Glow blob -->
+        <View
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-50dp"
+            android:layout_marginEnd="-50dp"
+            android:background="@drawable/bg_glow_blob_blue"
+            android:alpha="0.35"/>
+
+        <!-- Back button -->
+        <TextView
+            android:id="@+id/backBtn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:text="←"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:background="@drawable/bg_back_btn"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/historyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attendance History"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_below="@id/backBtn"
+            android:layout_marginTop="14dp"/>
+
+        <!-- Subtitle — student name -->
+        <TextView
+            android:id="@+id/historySubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full attendance record"
+            android:textSize="13sp"
+            android:textColor="#6B7FA3"
+            android:layout_below="@id/historyTitle"
+            android:layout_marginTop="4dp"/>
+
+    </RelativeLayout>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- FLOATING STATS ROW                         -->
+    <!-- ══════════════════════════════════════════ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginTop="-22dp"
+        android:layout_marginBottom="12dp">
+
+        <!-- Total -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_stat_card"
+            android:padding="14dp"
+            android:layout_marginEnd="6dp">
+
+            <TextView
+                android:id="@+id/statTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#4F6EF7"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total"
+                android:textSize="10sp"
+                android:textColor="#8A96B0"
+                android:layout_marginTop="3dp"/>
+
+        </LinearLayout>
+
+        <!-- Present -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_stat_card"
+            android:padding="14dp"
+            android:layout_marginEnd="6dp">
+
+            <TextView
+                android:id="@+id/statPresent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#22C55E"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Present"
+                android:textSize="10sp"
+                android:textColor="#8A96B0"
+                android:layout_marginTop="3dp"/>
+
+        </LinearLayout>
+
+        <!-- Absent -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_stat_card"
+            android:padding="14dp">
+
+            <TextView
+                android:id="@+id/statAbsent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#EF4444"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Absent"
+                android:textSize="10sp"
+                android:textColor="#8A96B0"
+                android:layout_marginTop="3dp"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- SECTION TITLE                              -->
+    <!-- ══════════════════════════════════════════ -->
     <TextView
-        android:text="Student Attendance History"
-        android:textSize="20sp"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="All Sessions"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#0A0F1E"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginBottom="10dp"/>
 
+    <!-- ══════════════════════════════════════════ -->
+    <!-- HISTORY LIST                               -->
+    <!-- ══════════════════════════════════════════ -->
     <ListView
         android:id="@+id/historyListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:clipToPadding="false"/>
 
 </LinearLayout>

@@ -1,9 +1,37 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.SmartAttendance" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        Using Theme.MaterialComponents.DayNight.NoActionBar.Bridge
+        The .Bridge parent is KEY — it stops Material Components from
+        forcefully overriding Button backgrounds, text colors, and tints.
+        This means ALL our custom XML backgrounds will render correctly.
+    -->
+    <style name="Theme.SmartAttendance" parent="Theme.MaterialComponents.DayNight.NoActionBar.Bridge">
+
+        <!-- Primary brand color -->
+        <item name="colorPrimary">#4F6EF7</item>
+        <item name="colorPrimaryVariant">#3D5ACC</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+
+        <!-- Secondary -->
+        <item name="colorSecondary">#4F6EF7</item>
+        <item name="colorSecondaryVariant">#3D5ACC</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">#F4F6FB</item>
+        <item name="colorSurface">#FFFFFF</item>
+        <item name="colorOnSurface">#0A0F1E</item>
+
+        <!-- Status bar — dark bg with light icons -->
+        <item name="android:statusBarColor">#0A0F1E</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- EditText cursor and highlight color -->
+        <item name="colorControlActivated">#4F6EF7</item>
+        <item name="colorControlHighlight">#1A4F6EF7</item>
+
     </style>
 
-    <style name="Theme.SmartAttendance" parent="Base.Theme.SmartAttendance" />
 </resources>

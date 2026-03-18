@@ -1,33 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#F5F7FA">
+    android:background="#F4F6FB"
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Class QR Code"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#1E3A8A"
-        android:layout_marginBottom="24dp"/>
-
-    <ImageView
-        android:id="@+id/qrImage"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:contentDescription="QR Code Image" />
-
-    <Button
-        android:id="@+id/generateBtn"
-        android:text="Generate New QR"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"/>
+        android:orientation="vertical">
 
-</LinearLayout>
+        <!-- ══════════════════════════════════════════ -->
+        <!-- DARK HEADER                                -->
+        <!-- ══════════════════════════════════════════ -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0A0F1E"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="32dp">
+
+            <!-- Green glow blob -->
+            <View
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-50dp"
+                android:layout_marginEnd="-50dp"
+                android:background="@drawable/bg_glow_blob_green"
+                android:alpha="0.4"/>
+
+            <!-- Back button -->
+            <TextView
+                android:id="@+id/backBtn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="←"
+                android:textSize="18sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:background="@drawable/bg_back_btn"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/pageTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Generate QR"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:layout_below="@id/backBtn"
+                android:layout_marginTop="14dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create an attendance session for students"
+                android:textSize="13sp"
+                android:textColor="#6B7FA3"
+                android:layout_below="@id/pageTitle"
+                android:layout_marginTop="4dp"/>
+
+        </RelativeLayout>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- CONTENT                                    -->
+        <!-- ══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- ── Subject Label ── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SELECT SUBJECT"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="#4A5568"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- ── Subject Spinner ── -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_stat_card"
+                android:layout_marginBottom="20dp">
+
+                <Spinner
+                    android:id="@+id/subjectSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="40dp"
+                    android:background="@null"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_down"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    app:tint="#A0AEC0"/>
+
+            </RelativeLayout>
+
+            <!-- ── Generate Button ── -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#22C55E"
+                android:layout_marginBottom="28dp">
+
+                <LinearLayout
+                    android:id="@+id/generateBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <LinearLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_btn_arrow_green"
+                        android:layout_marginEnd="10dp">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_qr_scan"
+                            app:tint="#FFFFFF"/>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Generate Attendance QR"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- ── QR Display Card ── -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_stat_card"
+                android:padding="24dp">
+
+                <!-- QR Image -->
+                <ImageView
+                    android:id="@+id/qrImage"
+                    android:layout_width="220dp"
+                    android:layout_height="220dp"
+                    android:src="@drawable/ic_qr_placeholder"
+                    android:scaleType="fitCenter"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Timer badge -->
+                <LinearLayout
+                    android:id="@+id/timerBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_timer_badge"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingBottom="6dp"
+                    android:layout_marginBottom="14dp"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/bg_dot_amber"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/timerText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expires in 2:00"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:textColor="#A16207"/>
+
+                </LinearLayout>
+
+                <!-- Info row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_predictor_card"
+                    android:padding="12dp">
+
+<!--                    <ImageView-->
+<!--                        android:layout_width="14dp"-->
+<!--                        android:layout_height="14dp"-->
+<!--                        android:src="@drawable/ic_info"-->
+<!--                        android:layout_marginEnd="8dp"-->
+<!--                        app:tint="#4F6EF7"/>-->
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Share this QR with students to mark attendance"
+                        android:textSize="12sp"
+                        android:textColor="#4F6EF7"
+                        android:lineSpacingMultiplier="1.4"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

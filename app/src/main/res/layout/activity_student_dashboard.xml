@@ -1,32 +1,490 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:background="#FFFFFF">
+    android:background="#F4F6FB"
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Student Dashboard"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#1E3A8A"
-        android:layout_marginBottom="24dp"/>
-
-    <Button
-        android:id="@+id/scanQRBtn"
-        android:text="Scan QR Code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/logoutBtn"
-        android:text="Logout"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"/>
+        android:orientation="vertical">
 
-</LinearLayout>
+        <!-- ══════════════════════════════════════════ -->
+        <!-- DARK HEADER                                -->
+        <!-- ══════════════════════════════════════════ -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0A0F1E"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="28dp">
+
+            <View
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-60dp"
+                android:layout_marginEnd="-60dp"
+                android:background="@drawable/bg_glow_blob_blue"
+                android:alpha="0.35"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/headerProfileImage"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:src="@drawable/ic_launcher_foreground"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"/>
+
+            <LinearLayout
+                android:id="@+id/headerTextBlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_toEndOf="@id/headerProfileImage"
+                android:layout_alignTop="@id/headerProfileImage"
+                android:layout_marginStart="12dp">
+
+                <TextView
+                    android:id="@+id/headerName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Student"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Attendance Dashboard"
+                    android:textSize="12sp"
+                    android:textColor="#6B7FA3"
+                    android:layout_marginTop="2dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/profileBtn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:text="👤"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:background="@drawable/bg_icon_btn"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <!-- Scan QR — bright blue -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/scanQrBtnCard"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_below="@id/headerProfileImage"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#4F6EF7">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:gravity="center"
+                        android:background="@drawable/bg_btn_arrow"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="12dp">
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_qr_scan"
+                            app:tint="#FFFFFF"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/scanQrBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Scan Attendance QR"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:letterSpacing="0.03"
+                        android:background="@null"
+                        android:stateListAnimator="@null"/>
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <!-- ══════════════════════════════════════════ -->
+        <!-- CONTENT                                    -->
+        <!-- ══════════════════════════════════════════ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Overview -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Overview"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="12dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_marginBottom="14dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp"
+                    android:layout_marginEnd="6dp">
+                    <TextView
+                        android:id="@+id/totalClasses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="#4F6EF7"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total"
+                        android:textSize="11sp"
+                        android:textColor="#8A96B0"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp"
+                    android:layout_marginEnd="6dp">
+                    <TextView
+                        android:id="@+id/presentClasses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="#22C55E"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Present"
+                        android:textSize="11sp"
+                        android:textColor="#8A96B0"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_stat_card"
+                    android:padding="14dp">
+                    <TextView
+                        android:id="@+id/absentClasses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="#EF4444"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Absent"
+                        android:textSize="11sp"
+                        android:textColor="#8A96B0"
+                        android:layout_marginTop="4dp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Attendance Rate Card (small pie + %) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_stat_card"
+                android:padding="16dp"
+                android:layout_marginBottom="12dp">
+
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChart"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_marginEnd="16dp"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Attendance Rate"
+                        android:textSize="12sp"
+                        android:textColor="#8A96B0"/>
+
+                    <TextView
+                        android:id="@+id/percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:textColor="#0A0F1E"
+                        android:layout_marginTop="2dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/predictorBadgeLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/bg_badge_green"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:layout_marginTop="6dp">
+
+                        <View
+                            android:id="@+id/badgeDot"
+                            android:layout_width="6dp"
+                            android:layout_height="6dp"
+                            android:background="@drawable/bg_dot_green"
+                            android:layout_marginEnd="5dp"/>
+
+                        <TextView
+                            android:id="@+id/predictorBadgeText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="On track"
+                            android:textSize="11sp"
+                            android:textColor="#22C55E"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Predictor Card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_predictor_card"
+                android:padding="16dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="🎯"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_predictor_icon"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:id="@+id/predictorText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="13sp"
+                    android:textColor="#2D3748"
+                    android:lineSpacingMultiplier="1.5"/>
+            </LinearLayout>
+
+            <!-- Subject Overview -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subject Overview"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="12dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/subjectRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Select Subject -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Select Subject"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="10dp"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/bg_stat_card"
+                android:layout_marginBottom="24dp">
+
+                <Spinner
+                    android:id="@+id/subjectSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="40dp"
+                    android:background="@null"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_down"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    app:tint="#A0AEC0"/>
+            </RelativeLayout>
+
+            <!-- Attendance Breakdown -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attendance Breakdown"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="12dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="@drawable/bg_stat_card"
+                android:padding="16dp"
+                android:layout_marginBottom="24dp">
+
+                <!-- Large pie chart -->
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChartLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"/>
+
+                <!-- Legend -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="20dp">
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/bg_dot_blue"
+                            android:layout_marginEnd="6dp"/>
+                        <TextView
+                            android:id="@+id/legendPresent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Present (0)"
+                            android:textSize="12sp"
+                            android:textColor="#4A5568"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/bg_dot_red"
+                            android:layout_marginEnd="6dp"/>
+                        <TextView
+                            android:id="@+id/legendAbsent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Absent (0)"
+                            android:textSize="12sp"
+                            android:textColor="#4A5568"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Attendance History -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Attendance History"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#0A0F1E"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Dynamic history cards added from Kotlin -->
+            <LinearLayout
+                android:id="@+id/historyContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+            <!-- Hidden ListView kept for code compatibility -->
+            <ListView
+                android:id="@+id/historyList"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

@@ -2,8 +2,8 @@ package com.tej.smartattendance
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -15,8 +15,10 @@ class SessionHistoryActivity : AppCompatActivity() {
 
     private lateinit var listView: ListView
     private lateinit var db: FirebaseFirestore
-    private val sessionList = mutableListOf<String>()
-    private lateinit var adapter: ArrayAdapter<String>
+
+    // ── Replaced String list + ArrayAdapter with typed list + SessionHistoryAdapter ──
+    private val sessionItems = mutableListOf<SessionHistoryItem>()
+    private lateinit var adapter: SessionHistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,23 +27,33 @@ class SessionHistoryActivity : AppCompatActivity() {
         listView = findViewById(R.id.listView)
         db = FirebaseFirestore.getInstance()
 
-        adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, sessionList)
+        // ── Back button ──
+        findViewById<TextView>(R.id.backBtn).setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
+
+        adapter = SessionHistoryAdapter(this, sessionItems)
         listView.adapter = adapter
 
         loadSessions()
     }
 
     private fun loadSessions() {
-
         db.collection("sessions")
             .orderBy("date", Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { sessions ->
 
-                sessionList.clear()
+                sessionItems.clear()
 
                 if (sessions.isEmpty) {
-                    sessionList.add("No sessions found")
+                    sessionItems.add(
+                        SessionHistoryItem(
+                            date = "No sessions found",
+                            subject = "",
+                            studentCount = 0
+                        )
+                    )
                     adapter.notifyDataSetChanged()
                     return@addOnSuccessListener
                 }
@@ -56,18 +68,26 @@ class SessionHistoryActivity : AppCompatActivity() {
                     }
 
                     val formattedDate = SimpleDateFormat(
-                        "dd MMM yyyy",
+                        "dd MMM yyyy, hh:mm a",
                         Locale.getDefault()
                     ).format(Date(sessionDate))
+
+                    // ── Get subject (classId) for display ──
+                    val subject = session.getString("classId") ?: "Class session"
 
                     session.reference
                         .collection("attendees")
                         .get()
                         .addOnSuccessListener { attendees ->
-
                             val count = attendees.size()
 
-                            sessionList.add("$formattedDate — $count students")
+                            sessionItems.add(
+                                SessionHistoryItem(
+                                    date = formattedDate,
+                                    subject = subject,
+                                    studentCount = count
+                                )
+                            )
 
                             adapter.notifyDataSetChanged()
                         }
@@ -77,13 +97,7 @@ class SessionHistoryActivity : AppCompatActivity() {
                 }
             }
             .addOnFailureListener {
-
-                Toast.makeText(
-                    this,
-                    "Failed to load sessions",
-                    Toast.LENGTH_LONG
-                ).show()
-
+                Toast.makeText(this, "Failed to load sessions", Toast.LENGTH_LONG).show()
                 Log.e("SESSION_HISTORY", "Firestore error", it)
             }
     }
